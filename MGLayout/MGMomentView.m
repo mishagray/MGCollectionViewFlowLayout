@@ -6,17 +6,17 @@
 //  Copyright (c) 2013 Michael Gray. All rights reserved.
 //
 
-#import "MGLayoutImageView.h"
+#import "MGMomentView.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface MGLayoutImageView ()
+@interface MGMomentView ()
 
 @property (nonatomic, weak) UIImageView * imageSubView;
 
 
 @end
 
-@implementation MGLayoutImageView
+@implementation MGMomentView
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -33,6 +33,10 @@
 - (void)setPictureInfo:(NSDictionary *)pictureInfo
 {
     _pictureInfo = pictureInfo;
+    
+    NSURL * url = _pictureInfo[@"URL"];
+    
+    self.imageSubView.image = [UIIMage ]
     // TODO - load picture from URL now!
 }
 

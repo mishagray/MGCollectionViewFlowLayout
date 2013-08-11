@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MGLayoutImageView : UIView
+@interface MGMomentView : UIView
 
 @property (nonatomic, assign) UIEdgeInsets contentInsets UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor * photoShadowColor UI_APPEARANCE_SELECTOR;

@@ -7,20 +7,13 @@
 //
 
 #import "AppDelegate.h"
-#import "MGLayoutFactory.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
    
-    for (NSUInteger i=4; i<=100; i++) {
- 
-        MGLayout * layout = [MGLayoutFactory findARandomLayoutThatFitWithNumberOfPics:i];
-        
-        NSLog(@"%d layouts for a list of size %d",layout.rects.count, i);
-    }
-    
+     
     
     // Override point for customization after application launch.
     return YES;

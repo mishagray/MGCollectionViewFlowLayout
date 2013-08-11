@@ -41,7 +41,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
 // we are next going to look at the set of sizes we see and see if we can get a good balance of 3x3 vs 2x2
 // then we will try and compute the layouts for those sets of sizes.
 
-+ (MGLayout*)searchForLayoutInCombination:(NSCountedSet*)combination
++ (MGLayout*)searchForLayoutInCombination:(NSCountedSet*)combination tries:(NSUInteger)tries
 {
     NSUInteger countForThreeByThree = [combination countForObject:@(3)];
     NSUInteger countForTwoByTwo = [combination countForObject:@(2)];
@@ -49,7 +49,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
     
     NSUInteger areaOfRectangle = (countForThreeByThree * 9) + (countForTwoByTwo * 4) + countForOneByOne;
     CGFloat heightOfRectangle = areaOfRectangle / 5.0;
-    MGLayout * layout = [self randomLayoutForCombination:combination inRect:CGRectMake(0,0,5.0,heightOfRectangle)];
+    MGLayout * layout = [self randomLayoutForCombination:combination inRect:CGRectMake(0,0,5.0,heightOfRectangle) tries:tries];
     
     switch (arc4random() % 4) {
         case 0:
@@ -97,7 +97,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
 
         NSCountedSet * highestScoringCachedCombination = s_scoredCombinationsCache[@(pics)];
         if (highestScoringCachedCombination != nil) {
-            return [self searchForLayoutInCombination:highestScoringCachedCombination];
+            return [self searchForLayoutInCombination:highestScoringCachedCombination tries:4];
         }
         NSDictionary * scoredCombinations = [self computeScoredCombinationsThatMayFitWithNumberOfPics:pics];
             
@@ -105,7 +105,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
 
         for (NSNumber * score in keys) {
             NSCountedSet * combination = scoredCombinations[score];
-            MGLayout * layout = [self searchForLayoutInCombination:combination];
+            MGLayout * layout = [self searchForLayoutInCombination:combination tries:1];
             if (layout != nil) {
                 s_scoredCombinationsCache[@(pics)] = combination;
                 return layout;
@@ -220,7 +220,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
 // we are going to try a layout where all the 3x3 are either on the left side or the right (never centered).
 // this means some combinations of sizes will fail to fit.
 
-+ (MGLayout*)randomLayoutForCombination:(NSCountedSet*)combination inRect:(CGRect)rect
++ (MGLayout*)randomLayoutForCombination:(NSCountedSet*)combination inRect:(CGRect)rect tries:(NSUInteger)tries
 {
     NSUInteger countForThreeByThree = [combination countForObject:@(3)];
     NSUInteger countForTwoByTwo = [combination countForObject:@(2)];
@@ -230,7 +230,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
     NSLog(@"{3x3:%d,2x2:%d,1x1:%d} heigoweht %f", countForThreeByThree, countForTwoByTwo, countForOneByOne, rect.size.height);
     NSMutableArray * initialLayouts = [self layoutsWithJustTheThreeByThrees:countForThreeByThree forFiveByNRect:rect];
     
-    while (initialLayouts.count > 0) {
+    while ((tries > 0) && initialLayouts.count > 0) {
 
         MGLayout * randomLayout = [initialLayouts randomPopFromArray];
         MGLayout * foundLayout = [self randomized_DFS_ForlayoutsByAddingRestOfCombination:combination toLayout:randomLayout];

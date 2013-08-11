@@ -10,8 +10,37 @@
 
 const BOOL DO_LOGIC_ASSERTIONS = false;
 
+@interface MGLayoutRect : NSObject
+
+@property (nonatomic, assign) CGRect rect;
+@property (nonatomic, assign) NSUInteger flowIndex;
+@property (nonatomic, assign) NSUInteger priorityIndex;
+
+
+- (id)initWithCGRect:(CGRect)rect;
+
+@end
+
+
+@implementation MGLayoutRect
+
+-(id)initWithCGRect:(CGRect)rect
+{
+    self = [super init];
+    if (self) {
+        self.rect = rect;
+    }
+    return self;
+}
+
+@end
+
+
 @interface MGLayout ()
 
+// this is the current rects that have been applied to the layout so far.
+@property (nonatomic, strong) NSMutableArray * layoutRects;
+@property (nonatomic, strong) NSMutableArray * priorityIndexes;
 // a 2D array of BOOLS.
 // will flip as we layout Rects.
 @property (nonatomic, strong) NSMutableArray * rows;
@@ -29,11 +58,12 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
 {
     self = [super init];
     if (self) {
-        self.totalRect = CGRectZero;
+        _totalRect = CGRectZero;
     }
     return self;
     
 }
+
 
 - (id)initWithCGRect:(CGRect)rect
 {
@@ -45,12 +75,12 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
     return self;
 }
 
-- (NSArray*)rects
+- (NSArray*)layoutRects
 {
-    if (_rects == nil) {
-        _rects = [NSMutableArray array];
+    if (_layoutRects == nil) {
+        _layoutRects = [NSMutableArray array];
     }
-    return _rects;
+    return _layoutRects;
 }
 
 - (void)resizeRowsIfNeededForRect:(CGRect)rect
@@ -85,7 +115,7 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
 
 - (void)_copyValuesFrom:(MGLayout*)mgLayout
 {
-    self.rects = mgLayout.rects.mutableCopy;
+    self.layoutRects = mgLayout.layoutRects.mutableCopy;
     self.rows = [NSMutableArray arrayWithCapacity:mgLayout.rows.count];
     for (NSUInteger i = 0; i < mgLayout.rows.count;i++) {
         NSMutableArray * column = mgLayout.rows[i];
@@ -110,8 +140,9 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
     
     self.totalRect = CGRectUnion(self.totalRect, totalRectToAppend);
     
-    for (NSValue * rectValue in layout.rects) {
-        CGRect rectToAppend = [rectValue CGRectValue];
+    for (MGLayoutRect * layoutRect in layout.layoutRects) {
+        
+        CGRect rectToAppend = layoutRect.rect;
         rectToAppend.origin.y += currentHeight;
         
         [self addRectToLayout:rectToAppend];
@@ -198,8 +229,10 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
         self.totalRect = newRect;
         [self resizeRowsIfNeededForRect:newRect];
     }
+    
     [self coverRectInGrid:rect];
-    [self.rects addObject:[NSValue valueWithCGRect:rect]];
+    MGLayoutRect * layoutRect = [[MGLayoutRect alloc] initWithCGRect:rect];
+    [self.layoutRects addObject:layoutRect];
     self.areaCovered += (rect.size.width * rect.size.height);
     
 }
@@ -244,12 +277,12 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
 }
 
 
-- (void)sortRectsBySizeAndLayout
+- (NSArray*)sortLayoutRectsBySize
 {
-    NSArray * sortedRects = [self.rects sortedArrayUsingComparator:^NSComparisonResult(NSValue * obj1, NSValue * obj2) {
+    NSArray * sortedBySizeLayoutRects = [self.layoutRects sortedArrayUsingComparator:^NSComparisonResult(MGLayoutRect * layoutRect1, MGLayoutRect * layoutRect2) {
         
-        CGRect rect1 = CGRectStandardize([obj1 CGRectValue]);
-        CGRect rect2 = CGRectStandardize([obj2 CGRectValue]);
+        CGRect rect1 = CGRectStandardize(layoutRect1.rect);
+        CGRect rect2 = CGRectStandardize(layoutRect2.rect);
         
         // we want the largest size rects to go first, so we invert rect1 and rect2 to compare
         NSComparisonResult comparison = [@(rect2.size.width) compare: @(rect1.size.width)];
@@ -261,12 +294,69 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
             comparison = [@(rect1.origin.x) compare: @(rect2.origin.x)];
             
         }
-        
         return comparison;
         
     }];
     
-    self.rects = sortedRects.mutableCopy;
+    return sortedBySizeLayoutRects;
+}
+
+- (NSArray*)sortLayoutRectsByFlowOrder
+{
+    NSArray * sortedBySizeLayoutRects = [self.layoutRects sortedArrayUsingComparator:^NSComparisonResult(MGLayoutRect * layoutRect1, MGLayoutRect * layoutRect2) {
+        
+        CGRect rect1 = CGRectStandardize(layoutRect1.rect);
+        CGRect rect2 = CGRectStandardize(layoutRect2.rect);
+        
+        // we want the largest size rects to go first, so we invert rect1 and rect2 to compare
+        NSComparisonResult comparison = [@(rect1.origin.y) compare: @(rect2.origin.y)];
+        if (comparison == NSOrderedSame) {
+            comparison = [@(rect1.origin.x) compare: @(rect2.origin.x)];
+            
+        }
+        return comparison;
+        
+    }];
+    
+    return sortedBySizeLayoutRects;
+}
+
+
+
+- (void)sortRectsBySizeAndLayout
+{
+    NSMutableArray * newPriorityIndexes = [NSMutableArray arrayWithCapacity:self.layoutRects.count];
+    
+
+    NSArray * flowSort = [self sortLayoutRectsByFlowOrder];
+    [flowSort enumerateObjectsUsingBlock:^(MGLayoutRect * layoutRect, NSUInteger idx, BOOL *stop) {
+        layoutRect.flowIndex = idx;
+    }];
+
+    NSArray * prioritySort = [self sortLayoutRectsBySize];
+    [prioritySort enumerateObjectsUsingBlock:^(MGLayoutRect * layoutRect, NSUInteger idx, BOOL *stop) {
+        [newPriorityIndexes addObject:@(layoutRect.flowIndex)];
+        layoutRect.priorityIndex = idx;
+    }];
+    
+    self.layoutRects = flowSort.mutableCopy;
+    self.priorityIndexes = newPriorityIndexes;
+}
+
+- (CGRect)rectByFlowOrder:(NSUInteger)n
+{
+    MGLayoutRect * layout = self.layoutRects[n];
+    return layout.rect;
+}
+
+- (NSUInteger)flowIndexForPriority:(NSInteger)n
+{
+    return [self.priorityIndexes[n] unsignedIntegerValue];
+}
+
+- (NSUInteger)count
+{
+    return self.layoutRects.count;
 }
 
 - (MGLayout*)flippedHorizontally
@@ -275,8 +365,8 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
     
     CGFloat height = self.totalRect.size.height;
     
-    for (NSValue * rectValue in self.rects) {
-        CGRect oldRect = [rectValue CGRectValue];
+    for (MGLayoutRect * layoutRect in self.layoutRects) {
+        CGRect oldRect = layoutRect.rect;
         CGRect newRect = oldRect;
         newRect.origin.y = height - oldRect.origin.y;
         newRect.size.height = -oldRect.size.height;
@@ -293,8 +383,8 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
     
     CGFloat width = self.totalRect.size.width;
     
-    for (NSValue * rectValue in self.rects) {
-        CGRect oldRect = [rectValue CGRectValue];
+    for (MGLayoutRect * layoutRect in self.layoutRects) {
+        CGRect oldRect = layoutRect.rect;
         CGRect newRect = oldRect;
         newRect.origin.x = width - oldRect.origin.x;
         newRect.size.width = -oldRect.size.width;
@@ -312,8 +402,8 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
     CGFloat width = self.totalRect.size.width;
     CGFloat height = self.totalRect.size.height;
     
-    for (NSValue * rectValue in self.rects) {
-        CGRect oldRect = [rectValue CGRectValue];
+    for (MGLayoutRect * layoutRect in self.layoutRects) {
+        CGRect oldRect = layoutRect.rect;
         CGRect newRect = oldRect;
         newRect.origin.x = width - oldRect.origin.x;
         newRect.size.width = -oldRect.size.width;

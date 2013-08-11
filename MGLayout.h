@@ -8,18 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface MGLayout : NSObject
 
 // this is the total CGRect we are trying to cover;
 @property (nonatomic, assign) CGRect totalRect;
-
-// this is the current rects that have been applied to the layout so far.
-@property (nonatomic, strong) NSMutableArray * rects;
-
 // this is the current total area currently covered by rects.
 @property (nonatomic, assign) CGFloat areaCovered;
-
 @property (nonatomic, readonly) CGFloat areaUncovered;
+
+
+@property (nonatomic, readonly) NSUInteger count;
+
 
 + (MGLayout*)layoutWithCGRect:(CGRect)rect;
 
@@ -38,12 +38,14 @@
 
 - (void)appendLayout:(MGLayout*)layout;
 
-
 - (void)sortRectsBySizeAndLayout;
 
 - (MGLayout*)flippedHorizontally;
 - (MGLayout*)flippedVertically;
 - (MGLayout*)flippedHorizontallyAndVertically;
+
+- (CGRect)rectByFlowOrder:(NSUInteger)n;
+- (NSUInteger)flowIndexForPriority:(NSInteger)n;
 
 
 @end

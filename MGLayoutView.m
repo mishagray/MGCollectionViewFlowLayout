@@ -8,7 +8,7 @@
 
 #import "MGLayoutView.h"
 #import "MGLayoutFactory.h"
-#import "MGLayoutImageView.h"
+#import "MGMomentView.h"
 
 @interface MGLayoutView ()
 
@@ -38,11 +38,11 @@
     {
         self.layout = [MGLayoutFactory findARandomLayoutThatFitWithNumberOfPics:numberOfPics];
         
-        [self.layout.rects enumerateObjectsUsingBlock:^(NSValue * rectValue, NSUInteger idx, BOOL *stop) {
+/*        [self.layout enumerateObjectsUsingBlock:^(NSValue * rectValue, NSUInteger idx, BOOL *stop) {
             MGLayoutImageView * mg_imageView = [[MGLayoutImageView alloc] initWithFrame:[rectValue CGRectValue]];
             [self addSubview:mg_imageView];
             mg_imageView.pictureInfo = picsArray[idx];
-        }];
+        }]; */
     }
     return self;
 }
