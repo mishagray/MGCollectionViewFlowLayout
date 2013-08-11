@@ -27,13 +27,13 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
 
 // So we are going to take a list of pictures of size (pic)
 // the list will be broken up into 3 potential "grid" sizes of 3x3, 2x2, and 1x1
-// then we will try and squeeze all of these photos into a rectangle of grid size 5xN , where N is the height of the fitting rectangle.
+// then we will try and squeeze all of these photos into a rectangle of grid size 5xN ,
+//       where N is the height of the rectangle.
 
 // So for any given is of pics X, there is only gonna be so many potential sizes.
-// NOTE this is a combinatorial explosive algorithm!  Don't try this for lists greater pics than 30 or so.
-// If you have a bigger list than 30, then break it up into a few smaller lists. and append the layouts together
-// results should be cached!
-
+// NOTE this is a potentially ombinatorial explosive algorithm!  Computing the potential combinations can be expensive.
+// Don't try this for lists greater pics than MAX_COMPUTABLE_LAYOUT_SIZE or so.
+// If you have a bigger list than MAX_COMPUTABLE_LAYOUT_SIZE, then it will be broken into smaller layouts and those layouts will be appended together.
 
 
 // So first we are going to generate potential set of Rects.
@@ -159,7 +159,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
     NSLog(@"combinations building for size %d", pics);
     NSSet * combinations = [[NSCountedSet setWithArray:@[@3,@2,@1]] combinationsWithRepetitionsOfSize:pics];
     
-    NSMutableDictionary * dictionary = [NSMutableDictionary dictionaryWithCapacity:combinations.count];
+    NSMutableDictionary * scored_combinations = [NSMutableDictionary dictionaryWithCapacity:combinations.count];
     
     NSLog(@"raw combinations = %d", combinations.count);
 	for (NSCountedSet* i in combinations) {
@@ -200,17 +200,17 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
                     CGFloat scoreRatio = minBig / maxBig;
                     CGFloat score = (minBig * scoreRatio);
                     
-                    dictionary[@(score)] = i;
+                    scored_combinations[@(score)] = i;
                 }
             }
         }
 	}
-    NSLog(@"combinations %d found for size %d", dictionary.count,pics);
+    NSLog(@"combinations %d found for size %d", scored_combinations.count,pics);
     // so SOME numbers (like 7?) don't give us any layouts.  So drop lets find a layout with one less pic (we will throw away the worst scoring photo).
-    if (dictionary.count == 0) {
+    if (scored_combinations.count == 0) {
         return [self computeScoredCombinationsThatMayFitWithNumberOfPics:pics-1];
     }
-    return dictionary;
+    return scored_combinations;
 }
 
 
