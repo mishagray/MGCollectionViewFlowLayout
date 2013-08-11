@@ -1,5 +1,5 @@
 //
-//  MGInitialViewController.h
+//  MGFlowLayout.h
 //  MGLayout
 //
 //  Created by Michael Gray on 8/11/13.
@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MGLayout.h"
 
-@interface MGInitialViewController : UIViewController
+@interface MGCollectionViewFlowLayout : UICollectionViewFlowLayout
+
+
 
 @end

@@ -13,22 +13,13 @@
 
 @implementation MGLayoutFactory
 
-static const NSUInteger MAX_COMPUTABLE_LAYOUT_SIZE = 16;
-static const NSUInteger GOOD_COMPUTABLE_SIZE_LAYOUT = 8;
-//static NSMutableDictionary * s_layoutCache = nil;
-static NSMutableDictionary * s_scoredCombinationsCache = nil;
 
-
-+ (void) initialize
-{
-//    s_layoutCache = [NSMutableDictionary dictionary];
-    s_scoredCombinationsCache = [NSMutableDictionary dictionary];
-}
+/////  MG Layout Factory!
 
 // So we are going to take a list of pictures of size (pic)
 // the list will be broken up into 3 potential "grid" sizes of 3x3, 2x2, and 1x1
-// then we will try and squeeze all of these photos into a rectangle of grid size 5xN ,
-//       where N is the height of the rectangle.
+// then we will try and squeeze all of these photos into a rectangle of grid size 5xn ,
+//       where n is the height of the rectangle.
 
 // So for any given is of pics X, there is only gonna be so many potential sizes.
 // NOTE this is a potentially ombinatorial explosive algorithm!  Computing the potential combinations can be expensive.
@@ -40,6 +31,15 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
 // They must fit in a grid-width of 5.
 // we are next going to look at the set of sizes we see and see if we can get a good balance of 3x3 vs 2x2
 // then we will try and compute the layouts for those sets of sizes.
+
+static const NSUInteger MAX_COMPUTABLE_LAYOUT_SIZE = 18;
+static const NSUInteger GOOD_COMPUTABLE_SIZE_LAYOUT = 8;
+static NSMutableDictionary * s_scoredCombinationsCache = nil;
+
++ (void) initialize
+{
+    s_scoredCombinationsCache = [NSMutableDictionary dictionary];
+}
 
 + (MGLayout*)searchForLayoutInCombination:(NSCountedSet*)combination tries:(NSUInteger)tries
 {
@@ -83,7 +83,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
         
         [top appendLayout:bottom];
         
-        // we need to set the combination in the cache so we can get gridsizes;
+        // we need to set the combination in the cache so we can pre-compute the sizes of Cells without generating the layouts again.;
         NSCountedSet * highestScoringCachedCombination = s_scoredCombinationsCache[@(pics)];
         if (highestScoringCachedCombination != nil) {
             NSCountedSet * topCombination = s_scoredCombinationsCache[@(topSize)];
@@ -130,16 +130,6 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
 }
 
 
-/* + (NSArray*)goodLayoutsThatFitWithNumberOfPics:(NSUInteger)pics
-{
-    NSArray * layouts = s_layoutCache[@(pics)];
-    if (layouts.count == 0) {
-        layouts = [self computeGoodLayoutsThatFitWithNumberOfPics:pics];
-        s_layoutCache[@(pics)] = layouts;
-    }
-    return layouts;
-} */
-
 + (CGRect)rectForCombination:(NSCountedSet*)combination
 {
     NSUInteger countForThreeByThree = [combination countForObject:@(3)];
@@ -152,6 +142,10 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
 
     return CGRectMake(0, 0, 5.0, heightOfRectangle);
 }
+
+// Now we will compute a set of combinations for a given set of picture Sizes.
+// We can't use ALL Combinations.  Just those that MIGHT fit in a 5xN rectangle.
+// Some combinations will still fail to fit.
 
 + (NSDictionary*)computeScoredCombinationsThatMayFitWithNumberOfPics:(NSUInteger)pics
 {
@@ -181,18 +175,24 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
         // These two conditions are going to lead to MORE unsolveable lists of pics but that's ok.
         //  We will start throwing away photos if that's the case.
         
-        // And fit us into a 5xN rectangle, so the area better be a muliple of 5.
+        // And fit us into a 5xN rectangle, so the area better be a muliple of 5. (Not a guarantee of success)
         
-        if ((countForThreeByThree > 0) && (countForTwoByTwo > 0) && (areaModFive == 0)) // this COULD be a set that could be assembled in a 5 x N rectangle.
+        if ((countForThreeByThree > 0) && (countForTwoByTwo > 0) && (areaModFive == 0))
+                // this COULD be a set that could be assembled in a 5 x N rectangle.
         {
             NSUInteger heightOfRectangle = areaOfRectangle / 5;
             NSUInteger heightOfStackOfThreeByThrees = countForThreeByThree * 3;
             
+            // first see if a stack of 3x3 will fit in this rectangle.
             if (heightOfStackOfThreeByThrees <= heightOfRectangle) {
                 
+                // If the 3x3 fits, than see if we can fit the 2x2 also.
                 NSUInteger numberOfTwoByTwosThatWillStillFit = (heightOfRectangle / 2) + ((heightOfRectangle - heightOfStackOfThreeByThrees) / 2);
                 
                 if (countForTwoByTwo <= numberOfTwoByTwosThatWillStillFit) {
+                    
+                    // Now let's "score" the combination.  Some combos will look better than others
+                    // We don't want too many 1x1s etc.
                     
                     CGFloat minBig = MIN(countForThreeByThree,countForTwoByTwo);
                     CGFloat maxBig = MAX(countForThreeByThree,countForTwoByTwo);
@@ -207,7 +207,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
         }
 	}
     NSLog(@"combinations %d found for size %d", scored_combinations.count,pics);
-    // so SOME numbers (like 7?) don't give us any layouts.  So drop lets find a layout with one less pic (we will throw away the worst scoring photo).
+    // so SOME numbers (like 7?) don't give us any layouts.  So drop lets find a layout with one less pic (we will end up throwing away the worst priority photo.
     if (scored_combinations.count == 0) {
         return [self computeScoredCombinationsThatMayFitWithNumberOfPics:pics-1];
     }
@@ -215,11 +215,8 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
 }
 
 
-
-// Now we will compute a set of MGLayout permutations for a given set of picture Sizes.
-// We don't want ALL layouts.
-// we are going to try a layout where all the 3x3 are either on the left side or the right (never centered).
-// this means some combinations of sizes will fail to fit.
+// Let's take a combination and try to randomly draw inside it.
+//
 
 + (MGLayout*)randomLayoutForCombination:(NSCountedSet*)combination inRect:(CGRect)rect tries:(NSUInteger)tries
 {
@@ -229,6 +226,9 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
     
     
     NSLog(@"{3x3:%d,2x2:%d,1x1:%d} heigoweht %f", countForThreeByThree, countForTwoByTwo, countForOneByOne, rect.size.height);
+    
+    //  I suppose we don't have to compute ALL the 3x3s, but if we start using different 3x3 layouts we may need to be flexible about some that cause the 2x2s to not fit).  So try a few layouts.  (They are cheap to make).
+    
     NSMutableArray * initialLayouts = [self layoutsWithJustTheThreeByThrees:countForThreeByThree forFiveByNRect:rect];
     
     while ((tries > 0) && initialLayouts.count > 0) {
@@ -247,13 +247,11 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
 
 // now take a take N number of threeByThrees and a 5xN CGRect and generate all the layouts for just the 3x3s.
 // but we want to ALTERNATE the X origin for 3x3 to either 0 or 2.
-// it also will help reduce calculations.
+// it also will help reduce chance of hitting a dead end (It avoids some layout issues where 2x2 can't fit).
 
-// TODO: Should we try flowing the 3x3s from right, to middle, to left, to middle to right????  That might look ok too.
+// TODO: Should we try flowing the 3x3s from right, to middle, to left, to middle to right????  That might look ok too, but increases the chance of failing to find a layout.
 
 // we will layout from the bottom up.  (This lets us do recursive stuff without changing origin values around).
-// By ALTERNATING the 3x3 layouts we may have to discard various potental layout size combinations.
-// We will figure this out when we try and layout 2x2 pics.
 
 + (NSMutableArray*)layoutsWithJustTheThreeByThrees:(NSUInteger)numberOfThreeByThrees forFiveByNRect:(CGRect)fiveByNRect {
     if (numberOfThreeByThrees == 0) {
@@ -302,42 +300,12 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
     return arrayOfLayouts;
 }
 
-+ (MGLayout*)DFS_forLayoutByAddingNextUncoveredRectWithSide:(NSUInteger)size toLayout:(MGLayout*)layout withCombination:(NSCountedSet*)combination
-{
-    CGRect rectToAdd = [layout firstUnconveredRectOfSize:CGSizeMake(size, size)];
-    if (CGRectIsNull(rectToAdd)) {
-        return nil;
-    }
-    MGLayout * newLayout = layout.mutableCopy;
-    [newLayout addRectToLayout:rectToAdd];
-    
-    NSCountedSet * newCombination = combination.mutableCopy;
-    [newCombination removeObject:@(size)];
-
-    return [self randomized_DFS_ForlayoutsByAddingRestOfCombination:newCombination toLayout:newLayout];
-}
-
-+ (MGLayout*)DFS_forLayoutByTryingToAddingCGRect:(CGRect)rectToAdd toLayout:(MGLayout*)layout withCombination:(NSCountedSet*)combination
-{
-    BOOL canFit = [layout canRectFitInLayout:rectToAdd];
-    if (!canFit) {
-        return nil;
-    }
-    MGLayout * newLayout = layout.mutableCopy;
-    [newLayout addRectToLayout:rectToAdd];
-    
-    NSCountedSet * newCombination = combination.mutableCopy;
-    NSUInteger size = rectToAdd.size.width;
-    [newCombination removeObject:@(size)];
-    
-    return [self randomized_DFS_ForlayoutsByAddingRestOfCombination:newCombination toLayout:newLayout];
-}
 
 
 // so now we have an MGLayout with some rects on it, and we need to add TwoByTwos and OneByOnes.
 // each uncovered spot can be covered by either a OneByOne OR a twoByTwo;
-// so let's just try and add a rect to either and see if the layout works.
-// then Prune everything but one solution recurisively.
+// so let's just try and add one or the other type of rect as we go.
+
 + (MGLayout*)randomized_DFS_ForlayoutsByAddingRestOfCombination:(NSCountedSet*)combination toLayout:(MGLayout*)layout
 {
     NSUInteger countForOneByOne = [combination countForObject:@(1)];
@@ -368,17 +336,48 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
         }
     }
     else if (countForTwoByTwo > 0) {
+        // TODO : This could probably done without going recursive.  It's Sunday night so I'm not gonna fix it.
         
         result = [self DFS_forLayoutByAddingNextUncoveredRectWithSide:2 toLayout:layout withCombination:combination];
     }
     else if (countForOneByOne > 0) {
-        
+        // TODO : This could probably done without going recursive.  It's Sunday night so I'm not gonna fix it.
         result = [self DFS_forLayoutByAddingNextUncoveredRectWithSide:1 toLayout:layout withCombination:combination];
     }
     
     return result;
 }
 
++ (MGLayout*)DFS_forLayoutByAddingNextUncoveredRectWithSide:(NSUInteger)size toLayout:(MGLayout*)layout withCombination:(NSCountedSet*)combination
+{
+    CGRect rectToAdd = [layout firstUnconveredRectOfSize:CGSizeMake(size, size)];
+    if (CGRectIsNull(rectToAdd)) {
+        return nil;
+    }
+    MGLayout * newLayout = layout.mutableCopy;
+    [newLayout addRectToLayout:rectToAdd];
+    
+    NSCountedSet * newCombination = combination.mutableCopy;
+    [newCombination removeObject:@(size)];
+    
+    return [self randomized_DFS_ForlayoutsByAddingRestOfCombination:newCombination toLayout:newLayout];
+}
+
++ (MGLayout*)DFS_forLayoutByTryingToAddingCGRect:(CGRect)rectToAdd toLayout:(MGLayout*)layout withCombination:(NSCountedSet*)combination
+{
+    BOOL canFit = [layout canRectFitInLayout:rectToAdd];
+    if (!canFit) {
+        return nil;
+    }
+    MGLayout * newLayout = layout.mutableCopy;
+    [newLayout addRectToLayout:rectToAdd];
+    
+    NSCountedSet * newCombination = combination.mutableCopy;
+    NSUInteger size = rectToAdd.size.width;
+    [newCombination removeObject:@(size)];
+    
+    return [self randomized_DFS_ForlayoutsByAddingRestOfCombination:newCombination toLayout:newLayout];
+}
 
 
 @end

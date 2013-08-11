@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MGLayoutExampleCollectionViewController : UICollectionViewController
+@interface MGMomentsViewController : UICollectionViewController
 
 
 

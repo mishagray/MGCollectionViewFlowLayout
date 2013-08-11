@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Michael Gray. All rights reserved.
 //
 
-#import "MGFlowLayout.h"
+#import "MGCollectionViewFlowLayout.h"
 #import "MGLayoutFactory.h"
 
-@interface MGFlowLayout ()
+@interface MGCollectionViewFlowLayout ()
 
 @property (nonatomic,strong) NSMutableArray * layouts;
 
@@ -22,7 +22,7 @@
 @end
 
 
-@implementation MGFlowLayout
+@implementation MGCollectionViewFlowLayout
 
 
 

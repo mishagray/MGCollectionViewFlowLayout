@@ -8,10 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		7C734DCC17B6869700C48F5E /* MGLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C734DCB17B6869700C48F5E /* MGLayout.m */; };
-		7CAC50A417B7CE9B00EC8F10 /* MGInitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAC50A317B7CE9B00EC8F10 /* MGInitialViewController.m */; };
 		7CAC50A717B7D69D00EC8F10 /* MGMomentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAC50A617B7D69D00EC8F10 /* MGMomentViewCell.m */; };
-		7CAC50AA17B7D6F300EC8F10 /* MGFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAC50A917B7D6F300EC8F10 /* MGFlowLayout.m */; };
-		7CAC50AD17B7E04200EC8F10 /* MGLayoutExampleCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAC50AC17B7E04200EC8F10 /* MGLayoutExampleCollectionViewController.m */; };
+		7CAC50AA17B7D6F300EC8F10 /* MGCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAC50A917B7D6F300EC8F10 /* MGCollectionViewFlowLayout.m */; };
+		7CAC50AD17B7E04200EC8F10 /* MGMomentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAC50AC17B7E04200EC8F10 /* MGMomentsViewController.m */; };
 		7CAC50AF17B7EF0900EC8F10 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 7CAC50AE17B7EF0900EC8F10 /* Podfile */; };
 		7CAC50B217B80F8600EC8F10 /* MGMomentHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAC50B117B80F8600EC8F10 /* MGMomentHeader.m */; };
 		7CAC50B517B820FC00EC8F10 /* MGCatGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAC50B417B820FB00EC8F10 /* MGCatGenerator.m */; };
@@ -33,7 +32,6 @@
 		7CAE070017B5D459000C88A8 /* MGLayoutFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAE06FF17B5D459000C88A8 /* MGLayoutFactory.m */; };
 		7CAE070317B5DB23000C88A8 /* NSSet+Combinatorics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAE070217B5DB23000C88A8 /* NSSet+Combinatorics.m */; };
 		7CE72D4117B6D34700F2BE0E /* NSMutableArray+RandomShrink.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE72D4017B6D34700F2BE0E /* NSMutableArray+RandomShrink.m */; };
-		7CE72D4417B70DDB00F2BE0E /* MGLayoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE72D4317B70DDB00F2BE0E /* MGLayoutView.m */; };
 		7CE72D4717B70EA500F2BE0E /* MGMomentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE72D4617B70EA500F2BE0E /* MGMomentView.m */; };
 		91C2163AC1824915810A793B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC77F3548844029ACF69920 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -49,16 +47,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7C734DCA17B6869700C48F5E /* MGLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGLayout.h; sourceTree = "<group>"; };
-		7C734DCB17B6869700C48F5E /* MGLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGLayout.m; sourceTree = "<group>"; };
-		7CAC50A217B7CE9B00EC8F10 /* MGInitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGInitialViewController.h; sourceTree = "<group>"; };
-		7CAC50A317B7CE9B00EC8F10 /* MGInitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGInitialViewController.m; sourceTree = "<group>"; };
+		7C734DCA17B6869700C48F5E /* MGLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGLayout.h; sourceTree = SOURCE_ROOT; };
+		7C734DCB17B6869700C48F5E /* MGLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGLayout.m; sourceTree = SOURCE_ROOT; };
 		7CAC50A517B7D69D00EC8F10 /* MGMomentViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGMomentViewCell.h; sourceTree = "<group>"; };
 		7CAC50A617B7D69D00EC8F10 /* MGMomentViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGMomentViewCell.m; sourceTree = "<group>"; };
-		7CAC50A817B7D6F300EC8F10 /* MGFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGFlowLayout.h; sourceTree = "<group>"; };
-		7CAC50A917B7D6F300EC8F10 /* MGFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGFlowLayout.m; sourceTree = "<group>"; };
-		7CAC50AB17B7E04200EC8F10 /* MGLayoutExampleCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGLayoutExampleCollectionViewController.h; sourceTree = "<group>"; };
-		7CAC50AC17B7E04200EC8F10 /* MGLayoutExampleCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGLayoutExampleCollectionViewController.m; sourceTree = "<group>"; };
+		7CAC50A817B7D6F300EC8F10 /* MGCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		7CAC50A917B7D6F300EC8F10 /* MGCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		7CAC50AB17B7E04200EC8F10 /* MGMomentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGMomentsViewController.h; sourceTree = "<group>"; };
+		7CAC50AC17B7E04200EC8F10 /* MGMomentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGMomentsViewController.m; sourceTree = "<group>"; };
 		7CAC50AE17B7EF0900EC8F10 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		7CAC50B017B80F8600EC8F10 /* MGMomentHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGMomentHeader.h; sourceTree = "<group>"; };
 		7CAC50B117B80F8600EC8F10 /* MGMomentHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGMomentHeader.m; sourceTree = "<group>"; };
@@ -84,14 +80,12 @@
 		7CAE06F017B5D263000C88A8 /* MGLayoutTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MGLayoutTests-Info.plist"; sourceTree = "<group>"; };
 		7CAE06F217B5D263000C88A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7CAE06F417B5D263000C88A8 /* MGLayoutTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGLayoutTests.m; sourceTree = "<group>"; };
-		7CAE06FE17B5D459000C88A8 /* MGLayoutFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGLayoutFactory.h; sourceTree = "<group>"; };
-		7CAE06FF17B5D459000C88A8 /* MGLayoutFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGLayoutFactory.m; sourceTree = "<group>"; };
-		7CAE070117B5DB23000C88A8 /* NSSet+Combinatorics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+Combinatorics.h"; sourceTree = "<group>"; };
-		7CAE070217B5DB23000C88A8 /* NSSet+Combinatorics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+Combinatorics.m"; sourceTree = "<group>"; };
-		7CE72D3F17B6D34700F2BE0E /* NSMutableArray+RandomShrink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+RandomShrink.h"; sourceTree = "<group>"; };
-		7CE72D4017B6D34700F2BE0E /* NSMutableArray+RandomShrink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+RandomShrink.m"; sourceTree = "<group>"; };
-		7CE72D4217B70DDB00F2BE0E /* MGLayoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGLayoutView.h; sourceTree = SOURCE_ROOT; };
-		7CE72D4317B70DDB00F2BE0E /* MGLayoutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGLayoutView.m; sourceTree = SOURCE_ROOT; };
+		7CAE06FE17B5D459000C88A8 /* MGLayoutFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGLayoutFactory.h; sourceTree = SOURCE_ROOT; };
+		7CAE06FF17B5D459000C88A8 /* MGLayoutFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGLayoutFactory.m; sourceTree = SOURCE_ROOT; };
+		7CAE070117B5DB23000C88A8 /* NSSet+Combinatorics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSSet+Combinatorics.h"; path = "../NSSet+Combinatorics.h"; sourceTree = "<group>"; };
+		7CAE070217B5DB23000C88A8 /* NSSet+Combinatorics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSSet+Combinatorics.m"; path = "../NSSet+Combinatorics.m"; sourceTree = "<group>"; };
+		7CE72D3F17B6D34700F2BE0E /* NSMutableArray+RandomShrink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+RandomShrink.h"; path = "../NSMutableArray+RandomShrink.h"; sourceTree = "<group>"; };
+		7CE72D4017B6D34700F2BE0E /* NSMutableArray+RandomShrink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+RandomShrink.m"; path = "../NSMutableArray+RandomShrink.m"; sourceTree = "<group>"; };
 		7CE72D4517B70EA500F2BE0E /* MGMomentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGMomentView.h; sourceTree = "<group>"; };
 		7CE72D4617B70EA500F2BE0E /* MGMomentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGMomentView.m; sourceTree = "<group>"; };
 		ACC77F3548844029ACF69920 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,18 +117,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7CAE06BA17B5D263000C88A8 = {
+		7CAC50B917B84D2100EC8F10 /* MGFlowLayout */ = {
 			isa = PBXGroup;
 			children = (
-				7CAC50AE17B7EF0900EC8F10 /* Podfile */,
-				7CAE070117B5DB23000C88A8 /* NSSet+Combinatorics.h */,
-				7CAE070217B5DB23000C88A8 /* NSSet+Combinatorics.m */,
 				7CAE06FE17B5D459000C88A8 /* MGLayoutFactory.h */,
 				7CAE06FF17B5D459000C88A8 /* MGLayoutFactory.m */,
 				7C734DCA17B6869700C48F5E /* MGLayout.h */,
 				7C734DCB17B6869700C48F5E /* MGLayout.m */,
+				7CAC50A817B7D6F300EC8F10 /* MGCollectionViewFlowLayout.h */,
+				7CAC50A917B7D6F300EC8F10 /* MGCollectionViewFlowLayout.m */,
+			);
+			name = MGFlowLayout;
+			sourceTree = "<group>";
+		};
+		7CAC50BA17B84D3900EC8F10 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				7CAE070117B5DB23000C88A8 /* NSSet+Combinatorics.h */,
+				7CAE070217B5DB23000C88A8 /* NSSet+Combinatorics.m */,
 				7CE72D3F17B6D34700F2BE0E /* NSMutableArray+RandomShrink.h */,
 				7CE72D4017B6D34700F2BE0E /* NSMutableArray+RandomShrink.m */,
+				7CAC50B317B820FB00EC8F10 /* MGCatGenerator.h */,
+				7CAC50B417B820FB00EC8F10 /* MGCatGenerator.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		7CAC50BB17B84D7F00EC8F10 /* MomentCells */ = {
+			isa = PBXGroup;
+			children = (
+				7CE72D4517B70EA500F2BE0E /* MGMomentView.h */,
+				7CE72D4617B70EA500F2BE0E /* MGMomentView.m */,
+				7CAC50A517B7D69D00EC8F10 /* MGMomentViewCell.h */,
+				7CAC50A617B7D69D00EC8F10 /* MGMomentViewCell.m */,
+				7CAC50B017B80F8600EC8F10 /* MGMomentHeader.h */,
+				7CAC50B117B80F8600EC8F10 /* MGMomentHeader.m */,
+			);
+			name = MomentCells;
+			sourceTree = "<group>";
+		};
+		7CAC50BC17B84D9000EC8F10 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				7CAC50AB17B7E04200EC8F10 /* MGMomentsViewController.h */,
+				7CAC50AC17B7E04200EC8F10 /* MGMomentsViewController.m */,
+				7CAC50B617B8250E00EC8F10 /* MGRandomGeneratorController.h */,
+				7CAC50B717B8250E00EC8F10 /* MGRandomGeneratorController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		7CAE06BA17B5D263000C88A8 = {
+			isa = PBXGroup;
+			children = (
+				7CAC50AE17B7EF0900EC8F10 /* Podfile */,
 				7CAE06CC17B5D263000C88A8 /* MGLayout */,
 				7CAE06EE17B5D263000C88A8 /* MGLayoutTests */,
 				7CAE06C517B5D263000C88A8 /* Frameworks */,
@@ -167,26 +203,12 @@
 		7CAE06CC17B5D263000C88A8 /* MGLayout */ = {
 			isa = PBXGroup;
 			children = (
-				7CAC50B317B820FB00EC8F10 /* MGCatGenerator.h */,
-				7CAC50B417B820FB00EC8F10 /* MGCatGenerator.m */,
 				7CAE06D517B5D263000C88A8 /* AppDelegate.h */,
 				7CAE06D617B5D263000C88A8 /* AppDelegate.m */,
-				7CE72D4517B70EA500F2BE0E /* MGMomentView.h */,
-				7CE72D4617B70EA500F2BE0E /* MGMomentView.m */,
-				7CE72D4217B70DDB00F2BE0E /* MGLayoutView.h */,
-				7CE72D4317B70DDB00F2BE0E /* MGLayoutView.m */,
-				7CAC50A217B7CE9B00EC8F10 /* MGInitialViewController.h */,
-				7CAC50A317B7CE9B00EC8F10 /* MGInitialViewController.m */,
-				7CAC50A517B7D69D00EC8F10 /* MGMomentViewCell.h */,
-				7CAC50A617B7D69D00EC8F10 /* MGMomentViewCell.m */,
-				7CAC50A817B7D6F300EC8F10 /* MGFlowLayout.h */,
-				7CAC50A917B7D6F300EC8F10 /* MGFlowLayout.m */,
-				7CAC50B017B80F8600EC8F10 /* MGMomentHeader.h */,
-				7CAC50B117B80F8600EC8F10 /* MGMomentHeader.m */,
-				7CAC50AB17B7E04200EC8F10 /* MGLayoutExampleCollectionViewController.h */,
-				7CAC50AC17B7E04200EC8F10 /* MGLayoutExampleCollectionViewController.m */,
-				7CAC50B617B8250E00EC8F10 /* MGRandomGeneratorController.h */,
-				7CAC50B717B8250E00EC8F10 /* MGRandomGeneratorController.m */,
+				7CAC50BA17B84D3900EC8F10 /* Utils */,
+				7CAC50B917B84D2100EC8F10 /* MGFlowLayout */,
+				7CAC50BB17B84D7F00EC8F10 /* MomentCells */,
+				7CAC50BC17B84D9000EC8F10 /* ViewControllers */,
 				7CAE06D817B5D263000C88A8 /* Main_iPhone.storyboard */,
 				7CAE06DB17B5D263000C88A8 /* Main_iPad.storyboard */,
 				7CAE06E117B5D263000C88A8 /* Images.xcassets */,
@@ -366,13 +388,11 @@
 				7C734DCC17B6869700C48F5E /* MGLayout.m in Sources */,
 				7CAE06D717B5D263000C88A8 /* AppDelegate.m in Sources */,
 				7CAC50B817B8250E00EC8F10 /* MGRandomGeneratorController.m in Sources */,
-				7CAC50AA17B7D6F300EC8F10 /* MGFlowLayout.m in Sources */,
+				7CAC50AA17B7D6F300EC8F10 /* MGCollectionViewFlowLayout.m in Sources */,
 				7CE72D4117B6D34700F2BE0E /* NSMutableArray+RandomShrink.m in Sources */,
-				7CAC50A417B7CE9B00EC8F10 /* MGInitialViewController.m in Sources */,
 				7CAC50B217B80F8600EC8F10 /* MGMomentHeader.m in Sources */,
-				7CE72D4417B70DDB00F2BE0E /* MGLayoutView.m in Sources */,
 				7CAE06D317B5D263000C88A8 /* main.m in Sources */,
-				7CAC50AD17B7E04200EC8F10 /* MGLayoutExampleCollectionViewController.m in Sources */,
+				7CAC50AD17B7E04200EC8F10 /* MGMomentsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

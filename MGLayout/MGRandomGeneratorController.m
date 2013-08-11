@@ -8,7 +8,7 @@
 
 #import "MGRandomGeneratorController.h"
 #import "MGCatGenerator.h"
-#import "MGLayoutExampleCollectionViewController.h"
+#import "MGMomentsViewController.h"
 #import "NSMutableArray+RandomShrink.h"
 
 
@@ -19,7 +19,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Moments"]) {
-        MGLayoutExampleCollectionViewController * dest = segue.destinationViewController;
+        MGMomentsViewController * dest = segue.destinationViewController;
         
         dest.arrayOfSectionDataArrays = [self generateSomeInitialDataForSectionCount:7];
         

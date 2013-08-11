@@ -6,15 +6,15 @@
 //  Copyright (c) 2013 Michael Gray. All rights reserved.
 //
 
-#import "MGLayoutExampleCollectionViewController.h"
+#import "MGMomentsViewController.h"
 
 #import "MGMomentViewCell.h"
 #import "MGMomentHeader.h"
-#import "MGFlowLayout.h"
+#import "MGCollectionViewFlowLayout.h"
 #import "MGCatGenerator.h"
 
 
-@interface MGLayoutExampleCollectionViewController () <UICollectionViewDelegateFlowLayout>
+@interface MGMomentsViewController () <UICollectionViewDelegateFlowLayout>
 
 
 @property (weak, nonatomic) IBOutlet UILabel *navigationBarLabel;
@@ -24,7 +24,7 @@
 @end
 
 
-@implementation MGLayoutExampleCollectionViewController
+@implementation MGMomentsViewController
 
 #pragma mark -- shake detection things
 
@@ -42,10 +42,10 @@
     self.navigationBarLabel.text = @"Thanks For Shaking";
     self.navigationBarLabel.textColor = [UIColor blackColor];
     
-    MGFlowLayout * newLayout = [[MGFlowLayout alloc] init];
+    MGCollectionViewFlowLayout * newLayout = [[MGCollectionViewFlowLayout alloc] init];
     
-    newLayout.headerReferenceSize = [(MGFlowLayout*)self.collectionView.collectionViewLayout headerReferenceSize];
-    newLayout.footerReferenceSize = [(MGFlowLayout*)self.collectionView.collectionViewLayout footerReferenceSize];
+    newLayout.headerReferenceSize = [(MGCollectionViewFlowLayout*)self.collectionView.collectionViewLayout headerReferenceSize];
+    newLayout.footerReferenceSize = [(MGCollectionViewFlowLayout*)self.collectionView.collectionViewLayout footerReferenceSize];
     [self.collectionView setCollectionViewLayout:newLayout animated:YES completion:^(BOOL finished) {
     }];
     
@@ -75,13 +75,7 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(    NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    MGFlowLayout * newLayout = [[MGFlowLayout alloc] init];
-    
-    newLayout.headerReferenceSize = [(MGFlowLayout*)self.collectionView.collectionViewLayout headerReferenceSize];
-    newLayout.footerReferenceSize = [(MGFlowLayout*)self.collectionView.collectionViewLayout footerReferenceSize];
     [self.collectionView reloadData];
-//    [self.collectionView setCollectionViewLayout:newLayout animated:YES completion:^(BOOL finished) {
-//    }];
 }
 
 
