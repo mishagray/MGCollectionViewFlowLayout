@@ -11,9 +11,15 @@
 #import "MGMomentViewCell.h"
 #import "MGMomentHeader.h"
 #import "MGFlowLayout.h"
+#import "MGCatGenerator.h"
 
 
 @interface MGLayoutExampleCollectionViewController () <UICollectionViewDelegateFlowLayout>
+
+
+@property (weak, nonatomic) IBOutlet UILabel *navigationBarLabel;
+@property (nonatomic, assign) BOOL shouldShake;
+@property (nonatomic, assign) BOOL hasShaken;
 
 @end
 
@@ -31,17 +37,60 @@
 - (void)shakeDetect
 {
     NSLog(@"Shake shake shake");
+    self.hasShaken = YES;
+    self.navigationBarLabel.alpha = 1.0;
+    self.navigationBarLabel.text = @"Thanks For Shaking";
+    self.navigationBarLabel.textColor = [UIColor blackColor];
     
     MGFlowLayout * newLayout = [[MGFlowLayout alloc] init];
     
     newLayout.headerReferenceSize = [(MGFlowLayout*)self.collectionView.collectionViewLayout headerReferenceSize];
     newLayout.footerReferenceSize = [(MGFlowLayout*)self.collectionView.collectionViewLayout footerReferenceSize];
-    [self.collectionView setCollectionViewLayout:newLayout animated:YES];
+    [self.collectionView setCollectionViewLayout:newLayout animated:YES completion:^(BOOL finished) {
+    }];
+    
+    
 }
+
+- (void)checkForShake
+{
+    if (!self.hasShaken) {
+        self.navigationBarLabel.text = @"SHAKE ME!!!";
+        
+        self.shouldShake = YES;
+        
+        self.navigationBarLabel.hidden = NO;
+        [UIView animateWithDuration:1.0 animations:^{
+            self.navigationBarLabel.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:1.0 animations:^{
+                self.navigationBarLabel.alpha = 1.0;
+            } completion:^(BOOL finished) {
+                [self performSelectorOnMainThread:@selector(checkForShake) withObject:nil waitUntilDone:NO];
+            }];
+        }];
+    }
+}
+
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(    NSTimeInterval)duration {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    MGFlowLayout * newLayout = [[MGFlowLayout alloc] init];
+    
+    newLayout.headerReferenceSize = [(MGFlowLayout*)self.collectionView.collectionViewLayout headerReferenceSize];
+    newLayout.footerReferenceSize = [(MGFlowLayout*)self.collectionView.collectionViewLayout footerReferenceSize];
+    [self.collectionView reloadData];
+//    [self.collectionView setCollectionViewLayout:newLayout animated:YES completion:^(BOOL finished) {
+//    }];
+}
+
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self becomeFirstResponder];
+    
+    
+    [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(checkForShake) userInfo:nil repeats:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -57,45 +106,6 @@
     }
 }
 
-- (NSArray*)generateSomeInitialDataForSectionCount:(NSUInteger)sections;{
-
-    
-    NSSortDescriptor * sortByPriority = [NSSortDescriptor sortDescriptorWithKey:@"priority" ascending:NO];
-    
-    NSMutableArray * sectionArray = [NSMutableArray arrayWithCapacity:sections];
-    
-    for (NSUInteger i=0;i<sections;i++) {
-
-        NSUInteger photos = 4 + (arc4random() % 20);
-        NSMutableArray * photoArray = [NSMutableArray arrayWithCapacity:photos];
-        
-        
-        for (NSUInteger p=0;p<photos;p++) {
-            
-            NSUInteger priority = (arc4random() % 100);
-            
-            NSString * URL = [NSString stringWithFormat:@"http://dummyimage.com/200.png&text=%d",priority];
-        
-            [photoArray addObject:@{@"priority" : @(priority),
-                                    @"URL" : [NSURL URLWithString:URL] }];
-        }
-        
-       [photoArray sortUsingDescriptors:@[sortByPriority]];
-        [sectionArray addObject:photoArray];
-    }
-    
-    return sectionArray;
-}
-
-
-- (NSArray*)arrayOfSectionDataArrays
-{
-    if (_arrayOfSectionDataArrays == nil) {
-        _arrayOfSectionDataArrays = [self generateSomeInitialDataForSectionCount:3];
-    }
-    
-    return _arrayOfSectionDataArrays;
-}
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -114,7 +124,8 @@
     
     NSArray * photoDicts = self.arrayOfSectionDataArrays[indexPath.section];
     header.headerLabel.text = [NSString stringWithFormat:@"%d moments",photoDicts.count];
-    
+
+
     return header;
 }
 

@@ -8,8 +8,29 @@
 
 #import "NSMutableArray+RandomShrink.h"
 
+
+@implementation NSArray (RandomShrink)
+
+- (id)randomItemFromArray
+{
+    if (self.count == 0) return nil;
+    NSUInteger randomIndex = arc4random() % self.count;
+    return [self objectAtIndex:randomIndex];
+}
+
+@end
+
+
 @implementation NSMutableArray (RandomShrink)
 
+
+
+- (id)randomItemFromArray
+{
+    if (self.count == 0) return nil;
+    NSUInteger randomIndex = arc4random() % self.count;
+    return [self objectAtIndex:randomIndex];
+}
 
 - (id)randomPopFromArray
 {

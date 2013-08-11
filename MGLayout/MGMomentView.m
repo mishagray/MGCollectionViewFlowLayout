@@ -27,6 +27,7 @@
     if (self) {
         UIImageView * subImageView = [[UIImageView alloc] initWithFrame:self.bounds];
         subImageView.contentMode = UIViewContentModeScaleAspectFill;
+        subImageView.clipsToBounds = YES;
         [self addSubview:subImageView];
         self.imageSubView = subImageView;
     }
@@ -39,6 +40,8 @@
     if (self) {
         
         UIImageView * subImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        subImageView.contentMode = UIViewContentModeScaleAspectFill;
+        subImageView.clipsToBounds = YES;
         [self addSubview:subImageView];
         self.imageSubView = subImageView;
     }

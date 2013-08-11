@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+
+@interface NSArray (RandomShrink)
+
+- (id)randomItemFromArray;
+
+@end
+
 @interface NSMutableArray (RandomShrink)
 
 - (void)randomlyRemoveItemsUntilSize:(NSUInteger)newSize;

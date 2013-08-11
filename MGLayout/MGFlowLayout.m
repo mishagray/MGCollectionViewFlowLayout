@@ -47,10 +47,18 @@
     for (NSUInteger section=0;section<sections;section++) {
         
         NSUInteger pics = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:section];
-        MGLayout * layout = [MGLayoutFactory findARandomLayoutThatFitWithNumberOfPics:pics];
         
-        [self.layouts addObject:layout];
-        
+        MGLayout * layout = nil;
+        if (self.layouts.count > section) {
+            layout = self.layouts[section];
+            if (abs(layout.count-pics) > 1) {
+                layout = nil;
+            }
+        }
+        if (layout == nil) {
+            layout = [MGLayoutFactory findARandomLayoutThatFitWithNumberOfPics:pics];
+            self.layouts[section] = layout;
+        }
         
         
         id<UICollectionViewDelegateFlowLayout> delegate = (id<UICollectionViewDelegateFlowLayout>) self.collectionView.delegate;
@@ -60,6 +68,7 @@
             headerSize = [delegate collectionView:self.collectionView layout:self referenceSizeForHeaderInSection:section];
         }
         if (!CGSizeEqualToSize(headerSize, CGSizeZero)) {
+            headerSize.width = contentWidth;
             NSIndexPath * sectionPath = [NSIndexPath indexPathForItem:0 inSection:section];
             UICollectionViewLayoutAttributes * headerAttribute = [UICollectionViewLayoutAttributes
                                                                 layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader withIndexPath:sectionPath];
@@ -107,6 +116,7 @@
             footerSize = [delegate collectionView:self.collectionView layout:self referenceSizeForFooterInSection:section];
         }
         if (!CGSizeEqualToSize(footerSize, CGSizeZero)) {
+            footerSize.width = contentWidth;
             NSIndexPath * sectionPath = [NSIndexPath indexPathForItem:0 inSection:section];
             UICollectionViewLayoutAttributes * footerAttribute = [UICollectionViewLayoutAttributes
                                                                   layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionFooter withIndexPath:sectionPath];
