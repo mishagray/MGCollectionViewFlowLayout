@@ -32,7 +32,7 @@
 
 - (void)doLayoutInitialization
 {
-    for (NSUInteger i=4; i<=100; i++) {
+    for (NSUInteger i=4; i<=24; i++) {
         
         MGLayout * layout = [MGLayoutFactory findARandomLayoutThatFitWithNumberOfPics:i];
         

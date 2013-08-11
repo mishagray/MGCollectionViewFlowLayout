@@ -9,6 +9,8 @@
 #import "MGMomentView.h"
 #import <QuartzCore/QuartzCore.h>
 
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+
 @interface MGMomentView ()
 
 @property (nonatomic, weak) UIImageView * imageSubView;
@@ -17,6 +19,19 @@
 @end
 
 @implementation MGMomentView
+
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        UIImageView * subImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        subImageView.contentMode = UIViewContentModeScaleAspectFill;
+        [self addSubview:subImageView];
+        self.imageSubView = subImageView;
+    }
+    return self;
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -35,9 +50,16 @@
     _pictureInfo = pictureInfo;
     
     NSURL * url = _pictureInfo[@"URL"];
+    NSAssert(url != nil, @"No URL FOUND!");
     
-    self.imageSubView.image = [UIIMage ]
+    [self.imageSubView setImageWithURL:url usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
     // TODO - load picture from URL now!
+}
+
+- (void)prepareForReuse
+{
+    [self.imageSubView cancelCurrentImageLoad];
 }
 
 #pragma mark -- UI Appearance Proxy Properties
@@ -82,7 +104,7 @@
 {
     [super layoutSubviews];
     
-    CGRect frame = self.frame;
+    CGRect frame = self.bounds;
     
     self.imageSubView.frame = UIEdgeInsetsInsetRect(frame, self.contentInsets);;
     

@@ -44,8 +44,7 @@
 - (MGLayout*)flippedVertically;
 - (MGLayout*)flippedHorizontallyAndVertically;
 
-- (CGRect)rectByFlowOrder:(NSUInteger)n;
-- (NSUInteger)flowIndexForPriority:(NSInteger)n;
+- (CGRect)rectForIndex:(NSUInteger)n;
 
 
 @end

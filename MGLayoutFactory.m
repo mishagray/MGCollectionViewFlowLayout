@@ -51,7 +51,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
     CGFloat heightOfRectangle = areaOfRectangle / 5.0;
     MGLayout * layout = [self randomLayoutForCombination:combination inRect:CGRectMake(0,0,5.0,heightOfRectangle) tries:tries];
     
-    switch (arc4random() % 4) {
+   switch (arc4random() % 4) {
         case 0:
             [layout sortRectsBySizeAndLayout];
             break;
@@ -70,6 +70,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
 
 + (MGLayout*)findARandomLayoutThatFitWithNumberOfPics:(NSUInteger)pics
 {
+    NSAssert(pics >= 4, @"Small layouts don't exist yet!");
     if (pics > MAX_COMPUTABLE_LAYOUT_SIZE) {
         
         NSUInteger bottomSize = pics-MAX_COMPUTABLE_LAYOUT_SIZE;
@@ -235,6 +236,7 @@ static NSMutableDictionary * s_scoredCombinationsCache = nil;
         MGLayout * randomLayout = [initialLayouts randomPopFromArray];
         MGLayout * foundLayout = [self randomized_DFS_ForlayoutsByAddingRestOfCombination:combination toLayout:randomLayout];
         if (foundLayout != nil) {
+            [foundLayout sortRectsBySizeAndLayout];
             return foundLayout;
         }
     }

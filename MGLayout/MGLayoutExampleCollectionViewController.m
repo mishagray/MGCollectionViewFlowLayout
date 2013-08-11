@@ -8,24 +8,56 @@
 
 #import "MGLayoutExampleCollectionViewController.h"
 
-#import "MGLayoutFactory.h"
 #import "MGMomentViewCell.h"
+#import "MGMomentHeader.h"
+#import "MGFlowLayout.h"
 
 
 @interface MGLayoutExampleCollectionViewController () <UICollectionViewDelegateFlowLayout>
-
-@property (nonatomic, strong) NSArray * flowOrderedSectionData;
-@property (nonatomic, strong) NSArray * sectionLayouts;
-
 
 @end
 
 
 @implementation MGLayoutExampleCollectionViewController
 
+#pragma mark -- shake detection things
 
-- (NSArray*)generateSomeInitialDataForSectionCount:(NSUInteger)sections andPhotoCount:(NSUInteger)photos;
+
+-(BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+
+- (void)shakeDetect
 {
+    NSLog(@"Shake shake shake");
+    
+    MGFlowLayout * newLayout = [[MGFlowLayout alloc] init];
+    
+    newLayout.headerReferenceSize = [(MGFlowLayout*)self.collectionView.collectionViewLayout headerReferenceSize];
+    newLayout.footerReferenceSize = [(MGFlowLayout*)self.collectionView.collectionViewLayout footerReferenceSize];
+    [self.collectionView setCollectionViewLayout:newLayout animated:YES];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self becomeFirstResponder];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [self resignFirstResponder];
+    [super viewWillDisappear:animated];
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    if (motion == UIEventSubtypeMotionShake)
+    {
+        [self shakeDetect];
+    }
+}
+
+- (NSArray*)generateSomeInitialDataForSectionCount:(NSUInteger)sections;{
 
     
     NSSortDescriptor * sortByPriority = [NSSortDescriptor sortDescriptorWithKey:@"priority" ascending:NO];
@@ -34,6 +66,7 @@
     
     for (NSUInteger i=0;i<sections;i++) {
 
+        NSUInteger photos = 4 + (arc4random() % 20);
         NSMutableArray * photoArray = [NSMutableArray arrayWithCapacity:photos];
         
         
@@ -54,57 +87,35 @@
     return sectionArray;
 }
 
-- (void)setupLayoutData
+
+- (NSArray*)arrayOfSectionDataArrays
 {
-    NSMutableArray * sectionLayouts = [NSMutableArray arrayWithCapacity:self.arrayOfSectionDataArrays.count];
-    NSMutableArray * flowOrderedSectionData = [NSMutableArray arrayWithCapacity:self.arrayOfSectionDataArrays.count];
-    
-    for (NSArray * photoArray in self.arrayOfSectionDataArrays) {
-        
-        MGLayout * layout = [MGLayoutFactory findARandomLayoutThatFitWithNumberOfPics:photoArray.count];
-        
-        NSAssert(layout != nil, @"Oh no!  ");
-        
-        [sectionLayouts addObject:layout];
-        
-        NSMutableArray * flowOrderedPhotos = [NSMutableArray arrayWithCapacity:photoArray.count];
-        
-        for (NSUInteger i=0;i<layout.count;i++) {
-            NSUInteger flowIndex = [layout flowIndexForPriority:i];
-            
-            NSDictionary * pictureInfo = photoArray[flowIndex];
-            [flowOrderedPhotos addObject:pictureInfo];
-        }
-        
-        [flowOrderedSectionData addObject:flowOrderedPhotos];
+    if (_arrayOfSectionDataArrays == nil) {
+        _arrayOfSectionDataArrays = [self generateSomeInitialDataForSectionCount:3];
     }
     
-    self.sectionLayouts = sectionLayouts;
-    self.flowOrderedSectionData = flowOrderedSectionData;
-    
+    return _arrayOfSectionDataArrays;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (self.arrayOfSectionDataArrays == nil) {
-        self.arrayOfSectionDataArrays = [self generateSomeInitialDataForSectionCount:2 andPhotoCount:12];
-    }
-    [self setupLayoutData];
-
+    NSArray * photoDicts = self.arrayOfSectionDataArrays[section];
+    return photoDicts.count;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    MGLayout * layout = self.sectionLayouts[indexPath.section];
+    return self.arrayOfSectionDataArrays.count;
+}
+
+- (UICollectionReusableView*)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    MGMomentHeader * header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:[MGMomentHeader reuseIdentifier] forIndexPath:indexPath];
     
-    CGSize gridSize = [layout rectByFlowOrder:indexPath.row].size;
-   
-    CGFloat gridScale = self.collectionView.bounds.size.width / layout.totalRect.size.width;
+    NSArray * photoDicts = self.arrayOfSectionDataArrays[indexPath.section];
+    header.headerLabel.text = [NSString stringWithFormat:@"%d moments",photoDicts.count];
     
-    CGSize cellSize = CGSizeApplyAffineTransform(gridSize, CGAffineTransformMakeScale(gridScale, gridScale));
-    
-    return cellSize;
-    
+    return header;
 }
 
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -113,9 +124,9 @@
     
     MGMomentViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:[MGMomentViewCell cellIdentifier]forIndexPath:indexPath];
     
-    NSArray * flowOrderedPictures = self.flowOrderedSectionData[indexPath.section];
+    NSArray * pictureDicts = self.arrayOfSectionDataArrays[indexPath.section];
     
-    cell.momentView.pictureInfo = flowOrderedPictures[indexPath.row];
+    cell.momentView.pictureInfo = pictureDicts[indexPath.row];
     
     return cell;
 }

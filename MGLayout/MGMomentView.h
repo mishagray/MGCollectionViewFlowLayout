@@ -21,5 +21,6 @@
 
 // @property (nonatomic, strong) NSURL * urlOfImage;
 
+- (void)prepareForReuse;
 
 @end

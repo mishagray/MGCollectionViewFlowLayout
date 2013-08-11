@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+
+#define     MG_LAYOUT_SHAKE_MESSAGE     @"MGLayoutShakeMessage"
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

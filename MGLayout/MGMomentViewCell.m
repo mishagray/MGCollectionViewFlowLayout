@@ -7,6 +7,7 @@
 //
 
 #import "MGMomentViewCell.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 @implementation MGMomentViewCell
 
@@ -14,6 +15,13 @@
 + (NSString*)cellIdentifier
 {
     return @"MGMomentViewCellIdentifier";
+}
+
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    [self.momentView prepareForReuse];
 }
 
 @end

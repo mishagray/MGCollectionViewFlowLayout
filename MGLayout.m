@@ -13,8 +13,6 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
 @interface MGLayoutRect : NSObject
 
 @property (nonatomic, assign) CGRect rect;
-@property (nonatomic, assign) NSUInteger flowIndex;
-@property (nonatomic, assign) NSUInteger priorityIndex;
 
 
 - (id)initWithCGRect:(CGRect)rect;
@@ -33,6 +31,11 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
     return self;
 }
 
+- (NSString*)description
+{
+    return [NSString stringWithFormat:@"MGLayoutRect:{%@}", NSStringFromCGRect(self.rect)];
+}
+
 @end
 
 
@@ -40,7 +43,6 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
 
 // this is the current rects that have been applied to the layout so far.
 @property (nonatomic, strong) NSMutableArray * layoutRects;
-@property (nonatomic, strong) NSMutableArray * priorityIndexes;
 // a 2D array of BOOLS.
 // will flip as we layout Rects.
 @property (nonatomic, strong) NSMutableArray * rows;
@@ -325,34 +327,15 @@ const BOOL DO_LOGIC_ASSERTIONS = false;
 
 - (void)sortRectsBySizeAndLayout
 {
-    NSMutableArray * newPriorityIndexes = [NSMutableArray arrayWithCapacity:self.layoutRects.count];
-    
-
-    NSArray * flowSort = [self sortLayoutRectsByFlowOrder];
-    [flowSort enumerateObjectsUsingBlock:^(MGLayoutRect * layoutRect, NSUInteger idx, BOOL *stop) {
-        layoutRect.flowIndex = idx;
-    }];
-
-    NSArray * prioritySort = [self sortLayoutRectsBySize];
-    [prioritySort enumerateObjectsUsingBlock:^(MGLayoutRect * layoutRect, NSUInteger idx, BOOL *stop) {
-        [newPriorityIndexes addObject:@(layoutRect.flowIndex)];
-        layoutRect.priorityIndex = idx;
-    }];
-    
-    self.layoutRects = flowSort.mutableCopy;
-    self.priorityIndexes = newPriorityIndexes;
+    self.layoutRects = [self sortLayoutRectsBySize].mutableCopy;
 }
 
-- (CGRect)rectByFlowOrder:(NSUInteger)n
+- (CGRect)rectForIndex:(NSUInteger)n
 {
     MGLayoutRect * layout = self.layoutRects[n];
     return layout.rect;
 }
 
-- (NSUInteger)flowIndexForPriority:(NSInteger)n
-{
-    return [self.priorityIndexes[n] unsignedIntegerValue];
-}
 
 - (NSUInteger)count
 {
