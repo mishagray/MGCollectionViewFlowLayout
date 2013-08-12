@@ -20,7 +20,7 @@ MGCollectionViewFlowLayout
 6) Can Supports animated rotatation.
 
 
-TO COMPILE EXAMPLE
+To compile example:
 ==========================
 Requires cocopods.  
 Run pod setup to create workspace.
@@ -29,14 +29,14 @@ Uses SDWebImage and AFNetworking to add support for Async photo loading (and ani
 
 
 
-POSSIBLE improvements (If I have time):
+- Wish List for features:
 ==========================
 
-- Support caching layout combinations onto disk for faster loading, and supporting wider set of combinations, instead of just a single combination for list size.
+- Add support for caching layout combinations onto disk for faster loading, and supporting wider set of combinations, instead of just a single combination for list size.  Let apps ship with all decent combinations pre-computed.
 
-- Support larger layout combinations,
+- Add support larger layout combinations.  (Needs disk caching).
 
 - add 4x4 support (for iPad?).  Requires a slightly more complicated DepthFirstSearch algorithm.
 
-- make a real cocopod.
+- make a real cocopod to get pulled into other projects.
 
