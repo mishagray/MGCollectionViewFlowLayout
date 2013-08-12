@@ -62,6 +62,7 @@
 		7CAC50B417B820FB00EC8F10 /* MGCatGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGCatGenerator.m; sourceTree = "<group>"; };
 		7CAC50B617B8250E00EC8F10 /* MGRandomGeneratorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGRandomGeneratorController.h; sourceTree = "<group>"; };
 		7CAC50B717B8250E00EC8F10 /* MGRandomGeneratorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGRandomGeneratorController.m; sourceTree = "<group>"; };
+		7CAC50BD17B874B000EC8F10 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		7CAE06C317B5D263000C88A8 /* MGLayout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MGLayout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CAE06C617B5D263000C88A8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7CAE06C817B5D263000C88A8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -117,7 +118,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7CAC50B917B84D2100EC8F10 /* MGFlowLayout */ = {
+		7CAC50B917B84D2100EC8F10 /* MGCollectionFlowLayout */ = {
 			isa = PBXGroup;
 			children = (
 				7CAE06FE17B5D459000C88A8 /* MGLayoutFactory.h */,
@@ -127,7 +128,7 @@
 				7CAC50A817B7D6F300EC8F10 /* MGCollectionViewFlowLayout.h */,
 				7CAC50A917B7D6F300EC8F10 /* MGCollectionViewFlowLayout.m */,
 			);
-			name = MGFlowLayout;
+			name = MGCollectionFlowLayout;
 			sourceTree = "<group>";
 		};
 		7CAC50BA17B84D3900EC8F10 /* Utils */ = {
@@ -170,6 +171,7 @@
 		7CAE06BA17B5D263000C88A8 = {
 			isa = PBXGroup;
 			children = (
+				7CAC50BD17B874B000EC8F10 /* README.md */,
 				7CAC50AE17B7EF0900EC8F10 /* Podfile */,
 				7CAE06CC17B5D263000C88A8 /* MGLayout */,
 				7CAE06EE17B5D263000C88A8 /* MGLayoutTests */,
@@ -206,7 +208,7 @@
 				7CAE06D517B5D263000C88A8 /* AppDelegate.h */,
 				7CAE06D617B5D263000C88A8 /* AppDelegate.m */,
 				7CAC50BA17B84D3900EC8F10 /* Utils */,
-				7CAC50B917B84D2100EC8F10 /* MGFlowLayout */,
+				7CAC50B917B84D2100EC8F10 /* MGCollectionFlowLayout */,
 				7CAC50BB17B84D7F00EC8F10 /* MomentCells */,
 				7CAC50BC17B84D9000EC8F10 /* ViewControllers */,
 				7CAE06D817B5D263000C88A8 /* Main_iPhone.storyboard */,
