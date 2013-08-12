@@ -15,6 +15,12 @@
 @implementation MGRandomGeneratorController
 
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self setupDetailText];
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -33,9 +39,7 @@
     NSArray * loremTypes = @[@"abstract",@"animals",@"business",@"cats",@"city",@"food",@"nightlife",@"fashion",@"people",@"nature",@"sports",@"technics",@"transport"];
     
     NSUInteger typeOfPhotos = self.pictureTypeControl.selectedSegmentIndex;
-    
-    NSSortDescriptor * sortByPriority = [NSSortDescriptor sortDescriptorWithKey:@"priority" ascending:NO];
-    
+        
     NSMutableArray * sectionArray = [NSMutableArray arrayWithCapacity:sections];
     
     NSUInteger bigPickWidth = (self.view.frame.size.width / 5) * 6.0; // assume retina
@@ -50,7 +54,7 @@
             
             NSURL * url = nil;
             
-            NSUInteger priority = (arc4random() % 100);
+            NSUInteger priority = photos-p;
             switch (typeOfPhotos)
             {
                 case 0:
@@ -68,7 +72,8 @@
                     
                 {
                     NSString * searchTerm = [loremTypes randomItemFromArray];
-                    NSString * image = [NSString stringWithFormat:@"http://lorempixel.com/%d/%d/%@/priority%d/",bigPickWidth,bigPickWidth,searchTerm,priority];
+//                   NSString * image = [NSString stringWithFormat:@"http://lorempixel.com/%d/%d/%@/priority%d/",bigPickWidth,bigPickWidth,searchTerm,priority];
+                    NSString * image = [NSString stringWithFormat:@"http://lorempixel.com/%d/%d/%@/%d",bigPickWidth,bigPickWidth,searchTerm,(arc4random() % 10) + 1];
                     url = [NSURL URLWithString:image];
                     break;
                 }
@@ -78,7 +83,6 @@
                                     @"URL" : url }];
         }
         
-        [photoArray sortUsingDescriptors:@[sortByPriority]];
         [sectionArray addObject:photoArray];
     }
     
@@ -86,13 +90,33 @@
 }
 - (IBAction)momentTypeSelected:(UISegmentedControl *)sender {
     
-    self.searchTermField.hidden = (sender.selectedSegmentIndex != 2);
+    [self setupDetailText];
 }
 
-- (IBAction)typeSelected:(id)sender {
-    
-    
+- (void)setupDetailText
+{
+    NSUInteger typeOfPhotos = self.pictureTypeControl.selectedSegmentIndex;
+    switch (typeOfPhotos) {
+        case 0: {
+            self.detailLabel.text = @"Show the priority number as the photo.";
+            [self.button setTitle:@"Show Numbers" forState:UIControlStateNormal];
+            break;
+        }
+        case 1: {
+            self.detailLabel.text = @"Who doesn't like cats?";
+            [self.button setTitle:@"Show Cats!" forState:UIControlStateNormal];
+            break;
+        }
+        case 2: {
+            self.detailLabel.text = @"Lots of boring but good looking moments";
+            [self.button setTitle:@"Show Pics!" forState:UIControlStateNormal];
+break;
+        }
+    }
+
 }
+
+
 
 
 @end

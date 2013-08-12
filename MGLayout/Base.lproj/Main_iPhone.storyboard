@@ -13,7 +13,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="dqa-bf-55h">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+                            <rect key="frame" x="0.0" y="64" width="320" height="79"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select your Moments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNB-ks-asa">
@@ -31,40 +31,58 @@
                             </constraints>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="Fdg-IQ-y30">
-                            <rect key="frame" x="0.0" y="174" width="320" height="109"/>
+                            <rect key="frame" x="0.0" y="238" width="320" height="109"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPU-3I-5fV">
-                                    <rect key="frame" x="126" y="40" width="69" height="30"/>
+                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPU-3I-5fV">
+                                    <rect key="frame" x="94" y="69" width="133" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="133" id="fGD-RK-Kan"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="ubk-Zs-tq0"/>
+                                    </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                    <state key="normal" title="Show me!">
+                                    <state key="normal" title="Touch for Moments">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
                                         <segue destination="bUk-xS-I4s" kind="push" identifier="Moments" id="1Tj-w7-9xD"/>
                                     </connections>
                                 </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="F9u-8d-aJU">
+                                    <rect key="frame" x="60" y="8" width="200" height="43"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="200" id="dF5-A1-M4b"/>
+                                        <constraint firstAttribute="height" constant="43" id="mDl-ts-1TM"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                    <color key="textColor" white="0.44220460769999997" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="centerX" secondItem="VPU-3I-5fV" secondAttribute="centerX" id="TVI-OL-8BP"/>
-                                <constraint firstAttribute="centerY" secondItem="VPU-3I-5fV" secondAttribute="centerY" id="XBs-Wa-1Vw"/>
+                                <constraint firstAttribute="centerX" secondItem="F9u-8d-aJU" secondAttribute="centerX" id="jh5-t1-P7M"/>
                             </constraints>
                         </view>
                         <sections>
                             <tableViewSection id="Qfw-7T-LMl">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="95" id="QoZ-RZ-hJq">
-                                        <rect key="frame" x="0.0" y="79" width="320" height="95"/>
+                                        <rect key="frame" x="0.0" y="143" width="320" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="QoZ-RZ-hJq" id="dWk-Zd-vIj">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="95"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="7xb-vn-ahw">
-                                                    <rect key="frame" x="16" y="34" width="288" height="29"/>
+                                                    <rect key="frame" x="32" y="26" width="256" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="7y4-bE-BeI"/>
+                                                    </constraints>
                                                     <segments>
                                                         <segment title="Priority Test"/>
                                                         <segment title="Cats"/>
@@ -76,10 +94,8 @@
                                                 </segmentedControl>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="centerY" secondItem="7xb-vn-ahw" secondAttribute="centerY" id="DA5-jh-z2s"/>
-                                                <constraint firstItem="7xb-vn-ahw" firstAttribute="top" secondItem="dWk-Zd-vIj" secondAttribute="top" constant="8" id="JPf-bm-B8d"/>
-                                                <constraint firstAttribute="centerX" secondItem="7xb-vn-ahw" secondAttribute="centerX" id="OCc-MY-t9g"/>
-                                                <constraint firstAttribute="centerX" secondItem="7xb-vn-ahw" secondAttribute="centerX" id="uku-0p-lLJ"/>
+                                                <constraint firstAttribute="centerY" secondItem="7xb-vn-ahw" secondAttribute="centerY" id="I3z-90-Qni"/>
+                                                <constraint firstAttribute="centerX" secondItem="7xb-vn-ahw" secondAttribute="centerX" id="m5x-fJ-yPl"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -89,6 +105,8 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Random Moment Generator" id="Wfy-ZA-YSZ"/>
                     <connections>
+                        <outlet property="button" destination="VPU-3I-5fV" id="PWF-St-PTS"/>
+                        <outlet property="detailLabel" destination="F9u-8d-aJU" id="YbM-je-ANx"/>
                         <outlet property="pictureTypeControl" destination="7xb-vn-ahw" id="y3b-7J-dcD"/>
                     </connections>
                 </tableViewController>
@@ -112,7 +130,7 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MGMomentViewCellIdentifier" id="utN-cX-Z1P" customClass="MGMomentViewCell">
-                                <rect key="frame" x="0.0" y="50" width="50" height="50"/>
+                                <rect key="frame" x="0.0" y="114" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -139,10 +157,10 @@
                             </collectionViewCell>
                         </cells>
                         <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MGMomentHeaderIdentifier" id="RX4-KQ-7Do" customClass="MGMomentHeader">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                            <rect key="frame" x="0.0" y="64" width="320" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="PtD-KI-EWd">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="PtD-KI-EWd">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
@@ -151,6 +169,10 @@
                                 </label>
                             </subviews>
                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="centerX" secondItem="PtD-KI-EWd" secondAttribute="centerX" id="RVE-bX-yH0"/>
+                                <constraint firstAttribute="centerY" secondItem="PtD-KI-EWd" secondAttribute="centerY" id="pS4-6A-7NZ"/>
+                            </constraints>
                             <connections>
                                 <outlet property="headerLabel" destination="PtD-KI-EWd" id="Evw-qX-wMy"/>
                             </connections>

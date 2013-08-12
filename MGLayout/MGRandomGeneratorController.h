@@ -10,8 +10,9 @@
 
 @interface MGRandomGeneratorController : UITableViewController
 @property (weak, nonatomic) IBOutlet UISegmentedControl *pictureTypeControl;
-@property (weak, nonatomic) IBOutlet UITextField *searchTermField;
 
+@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
+@property (weak, nonatomic) IBOutlet UIButton *button;
 
 
 @end
